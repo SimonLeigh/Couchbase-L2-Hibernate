@@ -128,22 +128,22 @@ print_db_usage
 date > "$PROVISIONED_ON"
 
 echo "Installation couchbase"
-wget http://packages.couchbase.com/releases/2.5.1/couchbase-server-enterprise_2.5.1_x86_64.deb -nv
+wget http://packages.couchbase.com/releases/3.1.5/couchbase-server-enterprise_3.1.5-ubuntu12.04_amd64.deb -nv
 echo "Package is got"
-dpkg -i couchbase-server-enterprise_2.5.1_x86_64.deb
+dpkg -i couchbase-server-enterprise_3.1.5-ubuntu12.04_amd64.deb
 #dpkg -i /mnt/bootstrap/couchbase-server-enterprise_2.5.1_x86_64.deb
 echo "Couchbase installed"
 sleep 10
 echo "Init node"
-/opt/couchbase/bin/couchbase-cli node-init -c localhost:8091 --node-init-data-path=/tmp
+/opt/couchbase/bin/couchbase-cli node-init -u Administrator -p password -c localhost:8091 --node-init-data-path=/tmp
 echo "Node inited"
 sleep 10
 echo "Init cluster"
-/opt/couchbase/bin/couchbase-cli cluster-init -c localhost:8091 --cluster-init-username="$COUCHBASEADMIN" --cluster-init-password="$COUCHBASEADMINPASS" --cluster-init-port=8091 --cluster-init-ramsize=512
+/opt/couchbase/bin/couchbase-cli cluster-init -u Administrator -p password -c localhost:8091 --cluster-init-username="$COUCHBASEADMIN" --cluster-init-password="$COUCHBASEADMINPASS" --cluster-init-port=8091 --cluster-init-ramsize=512
 echo "Cluster inited"
 sleep 10
 echo "Creat bucket"
-/opt/couchbase/bin/couchbase-cli bucket-create -c localhost:8091 --bucket="$BUCKETNAME" --bucket-type=couchbase --bucket-ramsize=500 --bucket-replica=1 --enable-flush=1 -u Administrator -p password
+/opt/couchbase/bin/couchbase-cli bucket-create -u Administrator -p password -c localhost:8091 --bucket="$BUCKETNAME" --bucket-type=couchbase --bucket-ramsize=500 --bucket-replica=1 --enable-flush=1 -u Administrator -p password
 echo "bucket created"
 echo "Administrator: login=$COUCHBASEADMIN, password=$COUCHBASEADMINPASS"
 echo "bucket name:$BUCKETNAME"
